@@ -17,8 +17,8 @@ import java.util.Random;
 public class RabinKarp
 {
 
-    private final int BASE = 2;
-    private final Map<Integer, Integer> POWER_LOOKUP;
+    private final long BASE = 2;
+    private final Map<Integer, Long> POWER_LOOKUP;
 
     public RabinKarp()
     {
@@ -33,14 +33,14 @@ public class RabinKarp
         RabinKarp rk = new RabinKarp();
         rk.run();
     }
-    
+
     private String randomString(String append)
     {
         int stringLen = 5000000;
         StringBuilder sb = new StringBuilder(stringLen);
         Random rng = new Random(System.currentTimeMillis());
         String validChars = "qwertyuiopasdfghjklzxcvbnm,/.,][';1234567890-=!@#$%^&*()7465312798465312132twgz8ukivybt4~`][{}<>|?:>><_+)/*-;";
-        for(int i = 0 ; i < stringLen; i ++)
+        for (int i = 0; i < stringLen; i++)
         {
             sb.append(validChars.charAt(rng.nextInt(validChars.length())));
         }
@@ -53,7 +53,7 @@ public class RabinKarp
         List<Long> naiveTimes = new ArrayList<>();
         List<Long> rkTimes = new ArrayList<>();
         List<TestCase> testCases = new ArrayList<>();
-        
+
         testCases.add(new TestCase(randomString("cabcab"), "bc"));
         testCases.add(new TestCase(randomString("u4orejinhelloworldv,r3uiowjefksnd"), "helloworld"));
         testCases.add(new TestCase(randomString("applefishy"), "fishy"));
@@ -65,7 +65,7 @@ public class RabinKarp
         testCases.add(new TestCase(randomString("9287nnnnaananananythikwejfsd"), "m"));
         testCases.add(new TestCase(randomString("lahfkwfgrthiokjwds976t4wge35st46gw35h2dn4gw65hrdtefhoigegjklesfjdkjoieghrbjfvcm"), "976t4wge35st46gw35h2dn4gw65hrdtm"));
         testCases.add(new TestCase(randomString("capitalfistringweo29rstristringngu0weofhidjv"), "string"));
-        
+
         for (int i = 0; i < 10; i++)
         {
             for (TestCase testCase : testCases)
@@ -84,19 +84,19 @@ public class RabinKarp
                 }
             }
         }
-        
+
         long avgNaive = avgTime(naiveTimes);
         long avgRK = avgTime(rkTimes);
         System.out.println("Naive :: " + avgNaive);
         System.out.println("RK :: " + avgRK);
-        
-        
+
+
     }
-    
+
     private long avgTime(List<Long> times)
     {
         long total = 0;
-        for(long l : times)
+        for (long l : times)
         {
             total += l;
         }
@@ -151,28 +151,36 @@ public class RabinKarp
         {
             return -1;
         }
-        String prev = s.substring(0, m);
-        int hsub = initialHash(sub);
-        int hs = initialHash(prev);
+        //cabcab
+        //bc
+        char prev = s.charAt(0);
+        long hsub = initialHash(sub);
+        long hs = initialHash(s.substring(0, m));
         for (int i = 0; i < n - m + 1; i++)
         {
-            String check = s.substring(i, i + m);
+            char c = s.charAt(i + m - 1);
             if (i == 0)
             {
+                String check = s.substring(i, i + m);
                 hs = initialHash(check);
             }
             else
             {
-                hs = rollingHash(hs, prev, check);
+                hs = rollingHash(hs, prev, c, m);
             }
             if (hs == hsub)
             {
+                String check = s.substring(i, i + m);
                 if (check.equals(sub))
                 {
                     return i;
                 }
             }
-            prev = check;
+            if (i != 0)
+            {
+                prev = s.charAt(i);
+            }
+
         }
         return -1;
     }
@@ -188,41 +196,40 @@ public class RabinKarp
      * @param current the current substring (to hash)
      * @return the hash value of current
      */
-    public int rollingHash(int val, String previous, String current)
+    public long rollingHash(long val, char previous, char current, int length)
     {
-        int length = current.length();
-        int total = val;
-        int toSubstract = (previous.charAt(0) - 97) * getPower(length - 1);
+        long total = val;
+        long toSubstract = (previous - 96) * getPower(length - 1);
         total -= toSubstract;
         total *= BASE;
-        total += current.charAt(length - 1) - 97;
+        total += current - 96;        
         return total;
-
     }
 
-    public int initialHash(String s)
+    public long initialHash(String s)
     {
-        int total = 0;
+
+        long total = 0;
         for (int i = s.length() - 1; i >= 0; i--)
         {
-            int asciiValue = s.charAt(i) - 97;
-            int multiplier = getPower(s.length() - i - 1);
+            int asciiValue = s.charAt(i) - 96;
+            long multiplier = getPower(s.length() - i - 1);
 
             total += multiplier * asciiValue;
         }
         return total;
     }
 
-    private int getPower(int i)
+    private long getPower(int i)
     {
-        int multiplier;
+        long multiplier;
         if (POWER_LOOKUP.containsKey(i))
         {
             multiplier = POWER_LOOKUP.get(i);
         }
         else
         {
-            multiplier = (int) Math.pow(BASE, i);
+            multiplier = (long) Math.pow(BASE, i);
             POWER_LOOKUP.put(i, multiplier);
         }
         return multiplier;

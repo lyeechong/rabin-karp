@@ -26,16 +26,16 @@ public class RabinKarpTest
 
         List<TestCase> testCases = new ArrayList<>();
         testCases.add(new TestCase("cabcab", "bc"));
-        testCases.add(new TestCase("u4orejinhelloworldv,r3uiowjefksnd", "helloworld"));
-        testCases.add(new TestCase("applefishy", "fishy"));
-        testCases.add(new TestCase("apple24242424242424244424244442424fishy", "42"));
-        testCases.add(new TestCase("9r8y3whfesgre88u2jannckjd", "ann"));
-        testCases.add(new TestCase("withjusticeforall", "justice"));
-        testCases.add(new TestCase("withjusticeforall", "ju"));
-        testCases.add(new TestCase("92874972395ythikwejfsd", "orangesbannanananananann"));
-        testCases.add(new TestCase("9287nnnnaananananythikwejfsd", "m"));
-        testCases.add(new TestCase("lahfkwfgrthiokjwds976t4wge35st46gw35h2dn4gw65hrdtefhoigegjklesfjdkjoieghrbjfvcm", "976t4wge35st46gw35h2dn4gw65hrdtm"));
-        testCases.add(new TestCase("capitalfistringweo29rstristringngu0weofhidjv", "string"));
+//        testCases.add(new TestCase("u4orejinhelloworldv,r3uiowjefksnd", "helloworld"));
+//        testCases.add(new TestCase("applefishy", "fishy"));
+//        testCases.add(new TestCase("apple24242424242424244424244442424fishy", "42"));
+//        testCases.add(new TestCase("9r8y3whfesgre88u2jannckjd", "ann"));
+//        testCases.add(new TestCase("withjusticeforall", "justice"));
+//        testCases.add(new TestCase("withjusticeforall", "ju"));
+//        testCases.add(new TestCase("92874972395ythikwejfsd", "orangesbannanananananann"));
+//        testCases.add(new TestCase("9287nnnnaananananythikwejfsd", "m"));
+//        testCases.add(new TestCase("lahfkwfgrthiokjwds976t4wge35st46gw35h2dn4gw65hrdtefhoigegjklesfjdkjoieghrbjfvcm", "976t4wge35st46gw35h2dn4gw65hrdtm"));
+//        testCases.add(new TestCase("capitalfistringweo29rstristringngu0weofhidjv", "string"));
 
         for (TestCase testCase : testCases)
         {
